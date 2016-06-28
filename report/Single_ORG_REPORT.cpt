@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<WorkBook xmlVersion="20100331">
+<TableDataMap>
+<TableData name="lhb_date" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="orgCode"/>
+<O>
+<![CDATA[80032107]]></O>
+</Parameter>
+</Parameters>
+<Semantic>
+<Dictionary class="com.fr.data.impl.FormulaDictionary"/>
+</Semantic>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[stock]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select t.STOCK_CODE,t.STOCK_DATE,t.LHB_NET_AMOUNT,t.ORG_CODE 
+ from data_lhb_detail t
+ where t.ORG_CODE = ${orgCode}
+ and t.LHB_NET_AMOUNT > 0 
+ group by t.STOCK_CODE,t.STOCK_DATE
+ order by t.STOCK_DATE,t.STOCK_CODE]]></Query>
+</TableData>
+<TableData name="stock" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[stock]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select * from stock]]></Query>
+</TableData>
+<TableData name="stock_data_day" class="com.fr.data.impl.DBTableData">
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O>
+<![CDATA[000038]]></O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Date">
+<![CDATA[1443542400000]]></O>
+</Parameter>
+</Parameters>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[stock]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select *,( select STOCK_END from data_day dd where dd.STOCK_CODE=t.STOCK_CODE and dd.STOCK_DATE = ( select max(STOCK_DATE) from data_day d where d.STOCK_CODE=t.STOCK_CODE and d.STOCK_DATE<(t.STOCK_DATE))) yestorday_end from data_day t where t.STOCK_DATE='${date}' and t.STOCK_CODE='${code}']]></Query>
+</TableData>
+<TableData name="organization" class="com.fr.data.impl.DBTableData">
+<Parameters/>
+<Attributes maxMemRowCount="-1"/>
+<Connection class="com.fr.data.impl.NameDatabaseConnection">
+<DatabaseName>
+<![CDATA[stock]]></DatabaseName>
+</Connection>
+<Query>
+<![CDATA[select * from organization]]></Query>
+</TableData>
+</TableDataMap>
+<ReportParameterAttr>
+<Attributes showWindow="true" delayPlaying="true" windowPosition="1" align="1"/>
+<PWTitle>
+<![CDATA[参数]]></PWTitle>
+<ParameterUI class="com.fr.report.parameter.CustomParameterUI">
+<ReportSettings headerHeight="0.0" footerHeight="0.0">
+<Margin top="0.27" left="0.75" bottom="0.27" right="0.75"/>
+</ReportSettings>
+<RowHeight defaultValue="19">
+<![CDATA[10,23,10,23,10,19,19,19,19,19,19]]></RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[80,140,80,140,80,140,72,72,72,72,72]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="1" s="0">
+<O>
+<![CDATA[orgCode:]]></O>
+<Expand/>
+</C>
+<C c="1" r="1">
+<O t="I">
+<![CDATA[80032107]]></O>
+<Expand/>
+<Widget class="com.fr.report.web.ui.TextEditor">
+<WidgetName name="orgCode"/>
+<WidgetAttr/>
+<TextAttr/>
+</Widget>
+</C>
+<C c="2" r="1" s="0">
+<O>
+<![CDATA[code:]]></O>
+<Expand/>
+</C>
+<C c="3" r="1">
+<O>
+<![CDATA[000038]]></O>
+<Expand/>
+<Widget class="com.fr.report.web.ui.TextEditor">
+<WidgetName name="code"/>
+<WidgetAttr/>
+<TextAttr/>
+</Widget>
+</C>
+<C c="4" r="1" s="0">
+<O>
+<![CDATA[date:]]></O>
+<Expand/>
+</C>
+<C c="5" r="1">
+<O t="Date">
+<![CDATA[1443542400000]]></O>
+<Expand/>
+<Widget class="com.fr.report.web.ui.TextEditor">
+<WidgetName name="date"/>
+<WidgetAttr/>
+<TextAttr/>
+</Widget>
+</C>
+<C c="1" r="3" cs="6" s="0">
+<Expand/>
+<Widget class="com.fr.report.web.ui.impl.form.FormSubmitButton">
+<WidgetAttr/>
+<Text>
+<![CDATA[查询]]></Text>
+</Widget>
+</C>
+<C c="0" r="4">
+<Expand/>
+</C>
+</CellElementList>
+</ParameterUI>
+</ReportParameterAttr>
+<Report class="com.fr.report.WorkSheet" name="sheet1">
+<ReportSettings headerHeight="0.0" footerHeight="0.0">
+<Margin top="0.27" left="0.75" bottom="0.27" right="0.75"/>
+</ReportSettings>
+<Header reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Header>
+<Footer reportPageType="0">
+<Background name="NullBackground"/>
+<LeftList/>
+<CenterList/>
+<RightList/>
+</Footer>
+<RowHeight defaultValue="19">
+<![CDATA[19,19,19,19,19,19,19,19,19,19,19]]></RowHeight>
+<ColumnWidth defaultValue="72">
+<![CDATA[114,72,72,364,72,72,72,72,72,72,72]]></ColumnWidth>
+<CellElementList>
+<C c="0" r="0">
+<O t="DSColumn">
+<Attributes dsName="lhb_date" columnName="STOCK_DATE"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="1" r="0">
+<O t="DSColumn">
+<Attributes dsName="lhb_date" columnName="STOCK_CODE"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="2" r="0">
+<O t="DSColumn">
+<Attributes dsName="stock" columnName="STOCK_NAME"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[STOCK_CODE]]></CNAME>
+<Compare op="0">
+<ColumnRow column="1" row="0"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand/>
+</C>
+<C c="3" r="0">
+<O t="DSColumn">
+<Attributes dsName="organization" columnName="ORG_NAME"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[ORG_CODE]]></CNAME>
+<Compare op="0">
+<AnDSColumn dsName="lhb_date" columnName="ORG_CODE"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="4" r="0">
+<O t="DSColumn">
+<Attributes dsName="organization" columnName="ORG_NAME"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[ORG_CODE]]></CNAME>
+<Compare op="0">
+<AnDSColumn dsName="lhb_date" columnName="ORG_CODE"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="5" r="0">
+<O t="DSColumn">
+<Attributes dsName="organization" columnName="ORG_NAME"/>
+<Condition class="com.fr.data.condition.CommonCondition">
+<CNAME>
+<![CDATA[ORG_CODE]]></CNAME>
+<Compare op="0">
+<AnDSColumn dsName="lhb_date" columnName="ORG_CODE"/>
+</Compare>
+</Condition>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[$$$]]></Result>
+<Parameters/>
+</O>
+<Expand dir="0"/>
+</C>
+<C c="6" r="0" s="1">
+<O t="DSColumn">
+<Attributes dsName="stock_data_day" columnName="STOCK_START"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[(STOCK_END - yestorday_end) / yestorday_end]]></Result>
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B1]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DATEDELTA(A1,2)]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+</O>
+<Expand dir="0" leftParentDefault="false" left="B1"/>
+</C>
+<C c="7" r="0" s="1">
+<O t="DSColumn">
+<Attributes dsName="stock_data_day" columnName="STOCK_START"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[(STOCK_END - yestorday_end) / yestorday_end]]></Result>
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B1]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DATEDELTA(A1,3)]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+</O>
+<Expand dir="0" leftParentDefault="false" left="B1"/>
+</C>
+<C c="8" r="0" s="1">
+<O t="DSColumn">
+<Attributes dsName="stock_data_day" columnName="STOCK_START"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[(STOCK_END - yestorday_end) / yestorday_end]]></Result>
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B1]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DATEDELTA(A1,4)]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+</O>
+<Expand dir="0" leftParentDefault="false" left="B1"/>
+</C>
+<C c="9" r="0" s="1">
+<O t="DSColumn">
+<Attributes dsName="stock_data_day" columnName="STOCK_START"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[(STOCK_END - yestorday_end) / yestorday_end]]></Result>
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B1]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DATEDELTA(A1,5)]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+</O>
+<Expand dir="0" leftParentDefault="false" left="B1"/>
+</C>
+<C c="10" r="0" s="1">
+<O t="DSColumn">
+<Attributes dsName="stock_data_day" columnName="STOCK_START"/>
+<Condition class="com.fr.data.condition.ListCondition"/>
+<Complex/>
+<RG class="com.fr.report.cellElement.core.FunctionGrouper">
+<Attr divideMode="1"/>
+</RG>
+<Result>
+<![CDATA[(STOCK_END - yestorday_end) / yestorday_end]]></Result>
+<Parameters>
+<Parameter>
+<Attributes name="code"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=B1]]></Attributes>
+</O>
+</Parameter>
+<Parameter>
+<Attributes name="date"/>
+<O t="Formula" class="Formula">
+<Attributes>
+<![CDATA[=DATEDELTA(A1,6)]]></Attributes>
+</O>
+</Parameter>
+</Parameters>
+</O>
+<Expand dir="0" leftParentDefault="false" left="B1"/>
+</C>
+<C c="7" r="1">
+<O>
+<![CDATA[]]></O>
+<Expand/>
+</C>
+</CellElementList>
+</Report>
+<StyleList>
+<Style horizontal_alignment="4">
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+<Style>
+<Format class="java.text.DecimalFormat">
+<![CDATA[#0.00%]]></Format>
+<FRFont name="SimSun" style="0" size="12"/>
+<Background name="NullBackground"/>
+<Border/>
+</Style>
+</StyleList>
+</WorkBook>

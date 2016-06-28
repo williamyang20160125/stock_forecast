@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="stock_forecast" version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>stock_forecast</display-name>
+	<description>stock_forecast</description>
+	
+	<context-param>  
+	    <param-name>webAppRootKey</param-name>  
+	    <param-value>stock_forecast</param-value>  
+	</context-param>  
+	
+	<context-param>
+		<param-name>log4jConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/log4j.xml</param-value>
+	</context-param> 
+	
+	
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<param-value>/WEB-INF/classes/spring-bean-all.xml</param-value>
+	</context-param>
+	
+	
+	<listener>
+		<listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+	</listener>
+
+	<!-- <listener>
+		<listener-class>com.zhaopin.cqm.agent.listener.IPListener</listener-class>
+	</listener> -->
+
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<listener>
+		<listener-class>com.zhaopin.common.listener.InitConfigListener</listener-class>
+	</listener>
+
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<param-name>encoding</param-name>
+			<param-value>UTF-8</param-value>
+		</init-param>
+		<init-param>
+			<param-name>forceEncoding</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<!-- RESTFUL METHOD FILTER -->
+	<filter>
+		<filter-name>httpMethodFilter</filter-name>
+		<filter-class>org.springframework.web.filter.HiddenHttpMethodFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>httpMethodFilter</filter-name>
+		<servlet-name>spring-mvc</servlet-name>
+	</filter-mapping>
+	
+	<!-- <servlet>
+		<servlet-name>start-quartz</servlet-name>
+		<servlet-class>com.zhaopin.cqm.agent.servlet.SartQuartzServlet</servlet-class>
+		<load-on-startup>100</load-on-startup>
+	</servlet> -->
+		<!-- Spring MVC DispatcherServlet -->
+	<servlet>
+		<servlet-name>spring-mvc</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>
+				/WEB-INF/classes/spring-MVC.xml
+			</param-value>
+		</init-param>
+		<load-on-startup>10</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>spring-mvc</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/js/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/assets/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/fonts/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/css/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>default</servlet-name>
+		<url-pattern>/img/*</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+	     <servlet-name>default</servlet-name>
+	     <url-pattern>*.css</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	     <servlet-name>default</servlet-name>
+	     <url-pattern>*.htm</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+	     <servlet-name>default</servlet-name>
+	     <url-pattern>*.html</url-pattern>
+	</servlet-mapping>
+	 
+	<servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>*.gif</url-pattern>
+	 </servlet-mapping>
+	 <servlet-mapping>
+	    <servlet-name>default</servlet-name>
+	    <url-pattern>*.png</url-pattern>
+	 </servlet-mapping>
+	 <servlet-mapping>
+	     <servlet-name>default</servlet-name>
+	     <url-pattern>*.jpg</url-pattern>
+	 </servlet-mapping>
+	    
+	 <servlet-mapping>
+	     <servlet-name>default</servlet-name>
+	     <url-pattern>*.js</url-pattern>
+	 </servlet-mapping>
+  
+	<session-config>
+         <session-timeout>120</session-timeout>
+    </session-config>
+	
+	<jsp-config>  
+	 <taglib>
+	    <taglib-uri>http://jakarta.apache.org/taglibs/unstandard-1.0</taglib-uri>
+	    <taglib-location>/WEB-INF/tld/taglibs-unstandard.tld</taglib-location>
+	  </taglib>
+	</jsp-config>
+	
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list>
+</web-app>

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd 
+		http://www.springframework.org/schema/tx 
+		http://www.springframework.org/schema/tx/spring-tx-2.5.xsd 
+		http://www.springframework.org/schema/aop 
+		http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+		http://www.springframework.org/schema/jee 
+		http://www.springframework.org/schema/jee/spring-jee-2.5.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-2.5.xsd"
+	default-lazy-init="false" >
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" >
+		<property name="configLocation" value="classpath:quartz.properties" />
+		<property name="triggers">
+			<list>
+				<ref bean="initStockTrigger"/>
+				<ref bean="getTodayLhbDataTrigger"/>
+				<ref bean="sendKeyOrgStockTrigger"/>
+				<ref bean="sendKeyOrgStock2Trigger"/>
+				<ref bean="updateKeyOrgTrigger"/>
+				<ref bean="sendSelectionsTrigger"/>
+				<ref bean="toDayTagTrigger"/>
+				<ref bean="getRealTimeDataTrigger"/>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 初始化股票 -->
+	<bean id="initStockJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="stockService" />
+		<property name="targetMethod" value="initStock" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="initStockTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="initStockJob" />
+		<property name="cronExpression" value="10 0 12 ? * MON-FRI" />
+	</bean>
+	
+	<!-- <bean id="getRealTimeDataJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="stockService" />
+		<property name="targetMethod" value="getRealTimeData" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="getRealTimeDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="getRealTimeDataJob" />
+		<property name="cronExpression" value="10 0 16 * * ?" />
+	</bean> -->
+	
+	<!-- 补充股票价值 
+	<bean id="fillStockJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="qqStockService" />
+		<property name="targetMethod" value="initStock" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="fillStockTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="fillStockJob" />
+		<property name="cronExpression" value="10 0 16 ? * MON-FRI" />
+	</bean>
+	-->
+	<!-- 股票收盘信息 -->
+	<bean id="getRealTimeDataJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="qqStockService" />
+		<property name="targetMethod" value="getRealTimeData" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="getRealTimeDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="getRealTimeDataJob" />
+		<property name="cronExpression" value="10 20 15 ? * MON-FRI" />
+	</bean>
+	
+	<!-- 龙虎榜信息 -->
+	<bean id="getTodayLhbDataJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="lhb2Service" />
+		<property name="targetMethod" value="getTodayLhbData" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="getTodayLhbDataTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="getTodayLhbDataJob" />
+		<property name="cronExpression" value="10 20 20 ? * MON-FRI" />
+	</bean>
+	
+	<!-- 发送核心机构龙虎榜数据 -->
+	<bean id="sendKeyOrgStockJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="weixinService" />
+		<property name="targetMethod" value="sendKeyOrgStock" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="sendKeyOrgStockTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sendKeyOrgStockJob" />
+		<property name="cronExpression" value="0 0 21 ? * MON-FRI" />
+	</bean>
+	
+	<!-- 发送核心机构龙虎榜数据2 -->
+	<bean id="sendKeyOrgStock2Job" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="weixinService" />
+		<property name="targetMethod" value="sendKeyOrgStock2" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="sendKeyOrgStock2Trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sendKeyOrgStock2Job" />
+		<property name="cronExpression" value="0 0 21 ? * MON-FRI" />
+	</bean>
+	
+	<bean id="updateKeyOrgJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="importOrgService" />
+		<property name="targetMethod" value="updateKeyOrg" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="updateKeyOrgTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="updateKeyOrgJob" />
+		<property name="cronExpression" value="0 0 3 1 * ?" />
+	</bean>
+	
+	<bean id="sendSelectionsJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="weixinService" />
+		<property name="targetMethod" value="sendSelections" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="sendSelectionsTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="sendSelectionsJob" />
+		<property name="cronExpression" value="0 2 21 ? * MON-FRI" />
+	</bean>
+	
+	<bean id="toDayTagJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="tagsService" />
+		<property name="targetMethod" value="toDayTag" />
+		<property name="concurrent" value="false" /> 
+	</bean>
+	<bean id="toDayTagTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="toDayTagJob" />
+		<property name="cronExpression" value="0 2 17 ? * MON-FRI" />
+	</bean>
+	
+</beans>
