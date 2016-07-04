@@ -372,7 +372,7 @@ public class WeixinService  extends BaseService{
 		
 		List<Map<String,Object>> list1 = selectionService.selection1(toDay);
 		List<Map<String,Object>> list2 = selectionService.selection2(toDay);
-		List<Map<String,Object>> list3 = selectionService.selection3(toDay);
+//		List<Map<String,Object>> list3 = selectionService.selection3(toDay);
 		List<Map<String,Object>> list4 = selectionService.selection4(toDay);
 		if(CollectionUtils.isNotEmpty(list1)){
 			String content = DateUtil.format(toDay,"yyyy-MM-dd")+"当天放量:\r\n";
@@ -422,27 +422,27 @@ public class WeixinService  extends BaseService{
 			
 		}
 		
-		if(CollectionUtils.isNotEmpty(list3)){
-			String content = DateUtil.format(toDay,"yyyy-MM-dd")+"五日穿十日:\r\n";
-			content +="股票代码,股票名称\r\n";
-			
-			for(int i=0;i<list3.size();i++){
-				Map<String,Object> row = list3.get(i);
-				content +=row.get("stock_code")+","+row.get("stock_name")+"\r\n";
-				
-				this.saveSelectedTrace(row.get("stock_code").toString(),toDay,"五日穿十日");
-				
-				if(i>0&&i%40==0){
-					this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
-					content=  DateUtil.format(toDay,"yyyy-MM-dd")+"五日穿十日:\r\n";
-					content +="股票代码,股票名称\r\n";
-				}
-			}
-			if(list3.size()%40 != 0){
-				this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
-			}
-			
-		}
+//		if(CollectionUtils.isNotEmpty(list3)){
+//			String content = DateUtil.format(toDay,"yyyy-MM-dd")+"五日穿十日:\r\n";
+//			content +="股票代码,股票名称\r\n";
+//			
+//			for(int i=0;i<list3.size();i++){
+//				Map<String,Object> row = list3.get(i);
+//				content +=row.get("stock_code")+","+row.get("stock_name")+"\r\n";
+//				
+//				this.saveSelectedTrace(row.get("stock_code").toString(),toDay,"五日穿十日");
+//				
+//				if(i>0&&i%40==0){
+//					this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
+//					content=  DateUtil.format(toDay,"yyyy-MM-dd")+"五日穿十日:\r\n";
+//					content +="股票代码,股票名称\r\n";
+//				}
+//			}
+//			if(list3.size()%40 != 0){
+//				this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
+//			}
+//			
+//		}
 		
 		if(CollectionUtils.isNotEmpty(list4)){
 			String content = DateUtil.format(toDay,"yyyy-MM-dd")+"高换手:\r\n";
@@ -460,9 +460,9 @@ public class WeixinService  extends BaseService{
 					content +="股票代码,股票名称\r\n";
 				}
 			}
-			if(list3.size()%40 != 0){
-				this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
-			}
+//			if(list3.size()%40 != 0){
+//				this.sendToUser(content, "william.yang@zhaopin.com.cn", this.ZGBFT_CropID, this.ZGBFT_Secret, 2);
+//			}
 			
 		}
 		
