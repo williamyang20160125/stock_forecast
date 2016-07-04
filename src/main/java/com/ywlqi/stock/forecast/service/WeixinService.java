@@ -60,13 +60,16 @@ public class WeixinService  extends BaseService{
 			"'80032107',"+
 			"'80094766'";
 	
-	private String ZGBFT_CropID="wxb4f20ef16a85a34c";
-	private String ZGBFT_Secret="NtZywX6NQJUkh4kgxHmjpnf0LcsFU8nAxC8EqDRKPP5uucjUECOqyqkTFgkfMkAQ";
+	private String ZGBFT_CropID=System.getenv("ZGBFT_CropID"); 
+	private String ZGBFT_Secret=System.getenv("ZGBFT_Secret");
 	
-	private String QPHY_CropID="wx8dbca481cdb4f707";
-	private String QPHY_Secret="df6eD7qgNjAxN0wA5JkAecbJcGrgr8tKHpk23KQcC6L63i0mdCZQmPGnVhUTdWHf";
+	private String QPHY_CropID=System.getenv("QPHY_CropID");
+	private String QPHY_Secret=System.getenv("QPHY_Secret");
 	
-//	private String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CropID+"&corpsecret="+Secret;
+//	public WeixinService(){
+//		System.out.println("ZGBFT_CropID==="+ZGBFT_CropID);
+//	}
+	
 	
 	public void sendLhbTop() throws SQLException, Exception{
 		StringBuffer sql = new StringBuffer();
@@ -485,7 +488,7 @@ public class WeixinService  extends BaseService{
 		
 		Map<String,String> headers = new HashMap();
 		
-		headers.put("Cookie", "user=MDp3aWxsaWFtMDYwODo6Tm9uZTo1MDA6MzQ5NzE5NTk1OjcsMTExMTExMTExMTEsNDA7NDQsMTEsNDA7NiwxLDQwOzUsMSw0MDo6OjozMzk3MTk1OTU6MTQ2NTM5Mzc1Mjo6OjE0NjUzOTM3NDA6MzQyNDI0ODowOmE1YWJlMmY3Nzg1MGZkMDZlNWUwZmFkNTgyNDc3YTBlOmRlZmF1bHRfMjow; userid=339719595; u_name=william0608; escapename=william0608; ticket=b27b685c8f6b262e1b6183d1bb395b9a; BAIDU_SSP_lcr=https://www.baidu.com/link?url=olm9m1KL7j4iMVTtBpANvn4W44ERCTrlQjzk4s6WzF5Bloim9ebeT-JECNyQd3bw&wd=&eqid=e02df57b000e2c6f0000000357583044; Hm_lvt_78c58f01938e4d85eaf619eae71b4ed1=1465393703,1465397323; Hm_lpvt_78c58f01938e4d85eaf619eae71b4ed1=1465397475; Hm_lvt_f79b64788a4e377c608617fba4c736e2=1465397332,1465397476; Hm_lpvt_f79b64788a4e377c608617fba4c736e2=1465397476");
+		headers.put("Cookie", System.getenv("LHB_COOKIE"));
 		headers.put("Accept-Encoding", "gzip, deflate, sdch");
 		headers.put("Accept-Language", "zh-CN,zh;q=0.8");
 		headers.put("User-Agent", "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/52.0.2743.19 Safari/537.36");
