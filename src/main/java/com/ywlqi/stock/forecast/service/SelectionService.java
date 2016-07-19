@@ -14,14 +14,13 @@ public class SelectionService extends BaseService{
 	
 	/*
 	 * 成交量较前一日增长超过100%
-	 * 三天量增
-	 * 三天收红
 	 * 当天上涨
+	 * 流通市值小于100亿
 	 * 收盘价比开盘价高
 	 */
 	public List<Map<String,Object>> selection1(Date date) throws Exception{
 		
-		String sql = "select s.stock_code,s.stock_name from stock_tags t,stock s  where t.stock_code = s.stock_code and  stock_date=? and deal_num_percent>100 and three_day_up_deal_num = 1  and three_day_red = 1 and jump_percent>0 and amplitude_percent>0 order by circulation_value";
+		String sql = "select s.stock_code,s.stock_name from stock_tags t,stock s  where t.stock_code = s.stock_code and  stock_date=? and deal_num_percent>100 and jump_percent>0 and amplitude_percent>0 and s.circulation_value<100 order by circulation_value";
 		
 		List<Map<String,Object>> list = this.forecastDao.findListBySQL(sql, date);
 		return list;
