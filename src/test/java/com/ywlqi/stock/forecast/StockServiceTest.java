@@ -21,10 +21,10 @@ public class StockServiceTest extends BaseTestCase{
 	
 	@Test
 	public void testFillOneDayData() throws ParseException{
-		this.testInitStock();
+//		this.testInitStock();
 //		this.testInitGetStockClass();
 		
-		Date date = DateUtil.parse( "2016-07-01","yyyy-MM-dd");
+		Date date = DateUtil.parse( "2016-07-29","yyyy-MM-dd");
 		
 		StockService stockService = (StockService)context.getBean("stockService");
 		
