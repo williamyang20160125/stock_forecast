@@ -277,9 +277,6 @@ public class WeixinService  extends BaseService{
 	
 	private void sendToUser(String content,String user,String CropID,String Secret,Integer agentid){
 		
-//		String CropID="wx8dbca481cdb4f707";
-		//在微信后台--设置--权限管理里设置新组获得
-//		String Secret="df6eD7qgNjAxN0wA5JkAecbJcGrgr8tKHpk23KQcC6L63i0mdCZQmPGnVhUTdWHf";
 		String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CropID+"&corpsecret="+Secret;
 		
 		
