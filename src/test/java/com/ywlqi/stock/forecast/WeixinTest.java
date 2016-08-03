@@ -62,7 +62,7 @@ public class WeixinTest  extends BaseTestCase{
 		WeixinService WeixinService = (WeixinService)context.getBean("weixinService");
 		
 		try {
-			Date date = DateUtil.parse("2016-06-15", "yyyy-MM-dd");
+			Date date = DateUtil.parse("2016-07-21", "yyyy-MM-dd");
 			WeixinService.sendSelectionsByDate(date);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -72,8 +72,14 @@ public class WeixinTest  extends BaseTestCase{
 
 
 	public static void main(String[] args) {
-		String CropID="wx8dbca481cdb4f707";
-		String Secret="df6eD7qgNjAxN0wA5JkAecbJcGrgr8tKHpk23KQcC6L63i0mdCZQmPGnVhUTdWHf";
+		String ZGBFT_CropID=System.getenv("ZGBFT_CropID"); 
+		String ZGBFT_Secret=System.getenv("ZGBFT_Secret");
+		
+		String QPHY_CropID=System.getenv("QPHY_CropID");
+		String QPHY_Secret=System.getenv("QPHY_Secret");
+		
+		String CropID=ZGBFT_CropID;
+		String Secret=ZGBFT_Secret;
 		String url = "https://qyapi.weixin.qq.com/cgi-bin/gettoken?corpid="+CropID+"&corpsecret="+Secret;
 		
 //		String body = httpGet.getBodyToString(url, "UTF-8", null, "POST");
